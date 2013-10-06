@@ -1,3 +1,6 @@
+#!/usr/bin/python
+
+
 '''
 Author:
 
@@ -5,62 +8,69 @@ Sanyk28 (san-heng-yi-shu@163.com)
 
 Date created:
 
-2 June 2013
+4 June 2013
 
 Rosalind problem:
 
-Given: A DNA string s of length at most 1000 nt.
+Calculating Expected Offspring
 
-Return: Four integers (separated by spaces) counting the respective number of times that the symbols 'A', 'C', 'G', and 'T' occur in s.
+Given: Six positive integers, each of which does not exceed 20,000. 
+The integers correspond to the number of couples in a population possessing each genotype pairing for a given factor. 
+In order, the six given integers represent the number of couples having the following genotypes:
+
+    AA-AA
+    AA-Aa
+    AA-aa
+    Aa-Aa
+    Aa-aa
+    aa-aa
+
+Return: The expected number of offspring displaying the dominant phenotype in the next generation, 
+under the assumption that every couple has exactly two offspring.
 
 Usage:
 
-python DNA.py [Input File]
+python IEV.py [Input File]
 
 '''
 
 
-### read file
-##f = open("./rosalind_iev.txt","r")
-##raw_data = f.readlines()
-##f.close()
-##
-### assign the number of couples processing each genotype
-##raw_data = raw_data[0]
-##G1 = float(raw_data.split(" ")[0])
-##G2 = float(raw_data.split(" ")[1])
-##G3 = float(raw_data.split(" ")[2])
-##G4 = float(raw_data.split(" ")[3])
-##G5 = float(raw_data.split(" ")[4])
-##G6 = float(raw_data.split(" ")[5])
-##
-###print type(G1),G2,G3,G4,G5,G6
-##
-### the number of G1 offspring displaying dominant phenotype
-##G1O = G1 * 2
-##
-### the number of G2 offspring displaying dominant phenotype
-##G2O = G2 * 2
-##
-### the number of G3 offspring displaying dominant phenotype
-##G3O = G3 * 2
-##
-### the number of G4 offspring displaying dominant phenotype
-##G4O = G4 * 2 * 3/4
-##
-### the number of G5 offspring displaying dominant phenotype
-##G5O = G5 * 2 * 1/2
-##
-### the number of G6 offspring displaying dominant phenotype
-##G6O = G6 * 0
-##
-##print G1O+G2O+G3O+G4O+G5O+G6O
+def Read_File():
 
-probs = [2., 2., 2., 1.5, 1, 0]
+    input_file = sys.argv[-1]
+    f = open(input_file)
+    raw_input = f.readline()
+    f.close()
 
+    return raw_input
+
+
+def Calculat_Expected_Offspring(Couples):
+    
+    '''
+    Couples are expected to be a list of six integers.
+    Each couple in Couples represents the six types of genotypes in order
+    '''
+    
+    probs = [2., 2., 2., 1.5, 1, 0]
+    expected_offspring = sum([a*b for a,b in zip(probs, Couples)])
+    
+    return expected_offspring
+
+
+'''
 with open('rosalind_iev.txt', 'r') as f:
     couples = map(int, f.readline().split())
+'''
 
-print zip(probs, couples)
+if __name__ == '__main__':
 
-print sum([a*b for a, b in zip(probs, couples)])
+    import sys
+
+    raw_input = Read_File()
+    couples = map(int, raw_input.split())
+
+    print Calculat_Expected_Offspring(couples)
+
+
+
