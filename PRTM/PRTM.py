@@ -1,3 +1,6 @@
+#!/usr/bin/python
+
+
 '''
 Author:
 
@@ -5,82 +8,57 @@ Sanyk28 (san-heng-yi-shu@163.com)
 
 Date created:
 
-2 June 2013
+5 June 2013
 
 Rosalind problem:
 
-Given: A DNA string s of length at most 1000 nt.
+Calculating Protein Mass
 
-Return: Four integers (separated by spaces) counting the respective number of times that the symbols 'A', 'C', 'G', and 'T' occur in s.
+Given: A protein string P of length at most 1000 aa.
+
+Return: The total weight of P. Consult the monoisotopic mass table.
 
 Usage:
 
-python DNA.py [Input File]
+python PRTM.py [Input File]
 
 '''
 
 
-# read file
-f = open("./rosalind_prtm.txt","r")
-raw_data = f.readlines()
-f.close()
+Monoisotopic_Mass_Table = {
+    'G': 57.021463735, 'A': 71.037113805, 'S': 87.032028435, 'P': 97.052763875, 
+    'V': 99.068413945, 'T': 101.047678505, 'C': 103.009184505, 'L': 113.084064015,
+    'I': 113.084064015, 'N': 114.042927470, 'D': 115.026943065, 'Q': 128.058577540,
+    'K': 128.094963050, 'E': 129.042593135, 'O': 132.089877680, 'M': 131.040484645,
+    'H': 137.058911875, 'F': 147.068413945, 'R': 156.101111050, 'Y': 163.063328575,
+    'W': 186.079312980}
 
-# get protein string
-protein = raw_data[0].strip()
 
-#print protein
-#print type(protein)
+def Read_File():
 
-# build monoisotopic mass table
-def MIMT(p):
-    if pro == "G":
-        mm = 57.021463735
-    elif pro == "A":
-        mm = 71.037113805
-    elif pro == "S":
-        mm = 87.032028435
-    elif pro == "P":
-        mm = 97.052763875
-    elif pro == "V":
-        mm = 99.068413945
-    elif pro == "T":
-        mm = 101.047678505
-    elif pro == "C":
-        mm = 103.009184505
-    elif pro == "L":
-        mm = 113.084064015
-    elif pro == "I":
-        mm = 113.084064015
-    elif pro == "N":
-        mm = 114.042927470
-    elif pro == "D":
-        mm = 115.026943065
-    elif pro == "Q":
-        mm = 128.058577540
-    elif pro == "K":
-        mm = 128.094963050
-    elif pro == "E":
-        mm = 129.042593135
-    elif pro == "O":
-        mm = 132.089877680
-    elif pro == "M":
-        mm = 131.040484645
-    elif pro == "H":
-        mm = 137.058911875
-    elif pro == "F":
-        mm = 147.068413945
-    elif pro == "R":
-        mm = 156.101111050
-    elif pro == "Y":
-        mm = 163.063328575
-    elif pro == "W":
-        mm = 186.079312980
-    return mm
+    input_file = sys.argv[-1]
+    f = open(input_file)
+    raw_input = f.readline()
+    f.close()
+
+    return raw_input
+
     
-# calculate the mass
-mass = 0.0
-for pro in protein:
-    mass += MIMT(pro)
-    
-print round(mass,3)
+def Calculate_Protein_Mass(protein):
+
+    mass = 0.0
+    for pro in protein:
+        mass += Monoisotopic_Mass_Table[pro]
+ 
+    return mass
+
+
+if __name__ == '__main__':
+
+    import sys
+
+    protein = Read_File().strip()
+    mass = Calculate_Protein_Mass(protein)
+   
+    print round(mass,3)
     
