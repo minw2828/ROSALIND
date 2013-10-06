@@ -9,34 +9,48 @@ Date created:
 
 Rosalind problem:
 
-Given: A DNA string s of length at most 1000 nt.
+Introduction to Mendelian Inheritance
 
-Return: Four integers (separated by spaces) counting the respective number of times that the symbols 'A', 'C', 'G', and 'T' occur in s.
+Given: Three positive integers k, m, and n, representing a population containing k+m+n organisms: 
+k individuals are homozygous dominant for a factor, m are heterozygous, and n are homozygous recessive.
+
+Return: The probability that two randomly selected mating organisms will produce an individual possessing a dominant allele 
+(and thus displaying the dominant phenotype). Assume that any two organisms can mate.
 
 Usage:
 
-python DNA.py [Input File]
+python IPRB.py [Input File]
 
 '''
 
+def Read_File():
 
-# read file
-f = open("./rosalind_iprb.txt","r")
-raw_data  = f.readlines()
-f.close()
+    input_file = sys.argv[-1]
 
-# assign values to k, m, n
-raw_data = raw_data[0].split(" ")
-k = float(raw_data[0].strip())
-m = float(raw_data[1].strip())
-n = float(raw_data[2].strip())
+    f = open(input_file)
 
-# calculate the probably of the occurrence of the required event
-sum = k+m+n
-nn = (n/sum)*((n-1)/(sum-1))
-mn = (m/(2*sum))*(n/(sum-1))
-nm = (n/sum)*(m/(2*(sum-1)))
-mm = (m/(2*sum))*((m-1)/(2*(sum-1)))
+    raw_input = f.readline()
 
-print 1-nn-mn-nm-mm
+    f.close()
 
+    return raw_input
+
+
+def Mendelian_Inheritance(k,m,n):
+
+    sum = k+m+n
+    nn = (n/sum)*((n-1)/(sum-1))
+    mn = (m/(2*sum))*(n/(sum-1))
+    nm = (n/sum)*(m/(2*(sum-1)))
+    mm = (m/(2*sum))*((m-1)/(2*(sum-1)))
+
+    return 1-nn-mn-nm-mm
+
+
+if __name__ == '__main__':
+
+    import sys
+
+    k,m,n = Read_File().split(' ')
+
+    print '{0:.5f}'.format(Mendelian_Inheritance(float(k),float(m),float(n)))
