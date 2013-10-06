@@ -1,3 +1,6 @@
+#!/usr/bin/python
+
+
 '''
 Author:
 
@@ -5,22 +8,24 @@ Sanyk28 (san-heng-yi-shu@163.com)
 
 Date created:
 
-2 June 2013
+8 June 2013
 
 Rosalind problem:
 
-Given: A DNA string s of length at most 1000 nt.
+RNA Splicing
 
-Return: Four integers (separated by spaces) counting the respective number of times that the symbols 'A', 'C', 'G', and 'T' occur in s.
+Given: A DNA string s (of length at most 1 kbp) and a collection of substrings of s acting as introns. 
+All strings are given in FASTA format.
+
+Return: A protein string resulting from transcribing and translating the exons of s. 
+(Note: Only one solution will exist for the dataset provided.)
 
 Usage:
 
-python DNA.py [Input File]
+python SPLC.py [Input File]
 
 '''
 
-
-import re
 
 RNA_codon = {
     'UUU':'F', 'CUU':'L', 'AUU':'I', 'GUU':'V', 'UUC':'F', 'CUC':'L',
@@ -35,57 +40,64 @@ RNA_codon = {
     'AGC':'S', 'GGC':'G', 'UGA':'Stop', 'CGA':'R', 'AGA':'R', 'GGA':'G',
     'UGG':'W', 'CGG':'R', 'AGG':'R', 'GGG':'G'}
 
-# read file
-f = open("./rosalind_splc.txt","r")
-rd = f.readlines()
-f.close()
-##print rd
 
-# get data
-seq = {}
-key = ""
-for ird in rd:
-    if ird[0] == ">":
-        key = ird[1:].strip()
-        seq[key] = ""
-    else: 
-        seq[key] += ''.join(ird.strip())
-##print seq
+def Read_File():
 
-# find the longest string
-max = 0
-for key, item in seq.iteritems():
-    if len(item) > max:
-        max = len(item)
+    input_file = sys.argv[-1]
+    f = open(input_file)
+    raw_input = f.readlines()
+    f.close()
 
-# get DNA and intron
-DNA = ""
-introns = []
-for key, item in seq.iteritems():
-    if len(item) == max:
-        DNA = item
-    else:
-        introns.append(item)
-##print DNA
-##print introns
+    return raw_input
 
-for intron in introns:
-    DNA = DNA.replace(intron, "")
-##print DNA
 
-# trascript DNA to RNA
-RNA = DNA.replace("T","U")
-##print RNA
+def Parse_FASTA(raw_input):
+    
+    data = {}
+    for item in raw_input:
+        if item[0] == '>':
+            key = item[1:].strip()
+            data[key] = ''
+        else:
+            data[key] += ''.join(item.strip())
 
-# translate RNA to protein
-RNAs = re.findall('...',RNA)
-protein = []    
-for codon in RNAs:
-    if RNA_codon.get(codon) != "Stop":
-        protein.append(RNA_codon.get(codon))
-    else:
-        break
+    return data
 
-fw = open("./rosalind_splc.output.txt","w")
-fw.write(''.join(protein))
-fw.close()
+
+def RNA_Splicing(data):
+
+    DNA = max(data.values(), key=len)
+    data.values().remove(DNA)
+    for intron in data.values():
+        DNA = DNA.replace(intron, '')
+    RNA = DNA.replace("T","U")
+
+    return RNA
+
+
+def Translation(RNA):
+    
+    RNAs = re.findall('...',RNA)
+    protein = []    
+    for codon in RNAs:
+        if RNA_codon.get(codon) != "Stop":
+            protein.append(RNA_codon.get(codon))
+        else:
+            break
+
+    return protein
+
+
+if __name__ == '__main__':
+
+    import sys
+    import re
+
+    raw_data = Read_File()
+    data = Parse_FASTA(raw_data)
+    RNA = RNA_Splicing(data)
+    protein = Translation(RNA)
+
+    fw = open('./rosalind_splc.output.txt','w')
+    fw.write(''.join(protein))
+    fw.close()
