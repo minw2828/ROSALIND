@@ -58,11 +58,6 @@ def Calculat_Expected_Offspring(Couples):
     return expected_offspring
 
 
-'''
-with open('rosalind_iev.txt', 'r') as f:
-    couples = map(int, f.readline().split())
-'''
-
 if __name__ == '__main__':
 
     import sys
@@ -71,6 +66,3 @@ if __name__ == '__main__':
     couples = map(int, raw_input.split())
 
     print Calculat_Expected_Offspring(couples)
-
-
-
