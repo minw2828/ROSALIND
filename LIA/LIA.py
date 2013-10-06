@@ -1,3 +1,6 @@
+#!/usr/bin/python
+
+
 '''
 Author:
 
@@ -5,40 +8,57 @@ Sanyk28 (san-heng-yi-shu@163.com)
 
 Date created:
 
-2 June 2013
+12 June 2013
 
 Rosalind problem:
 
-Given: A DNA string s of length at most 1000 nt.
+Mendel's Second Law
 
-Return: Four integers (separated by spaces) counting the respective number of times that the symbols 'A', 'C', 'G', and 'T' occur in s.
+Given: Two positive integers k (k<=7) and N (N<=2k). 
+In this problem, we begin with Tom, who in the 0th generation has genotype Aa Bb. 
+Tom has two children in the 1st generation, each of whom has two children, and so on. 
+Each organism always mates with an organism having genotype Aa Bb.
+
+Return: The probability that at least N Aa Bb organisms will belong to the k-th generation of Tom's family tree 
+(don't count the Aa Bb mates at each level). 
+Assume that Mendel's second law holds for the factors.
 
 Usage:
 
-python DNA.py [Input File]
+python LIA.py [Input File]
 
 '''
 
 
-import math
-from scipy.stats import *
+def Read_File():
 
-# read file
-f = open("./rosalind_lia.txt","r")
-rd = f.readlines()
-f.close()
+    input_file = sys.argv[-1]
+    f = open(input_file)
+    raw_input = f.readline()
+    f.close()
 
-# obtain k, N
-k = int(rd[0].split(" ")[0])
-N = int(rd[0].split(" ")[1])
+    return raw_input
 
-# Binomial Probability mass function
+
 def P(x):
-    # the k-th generation has 2^k posterities
-    n = math.pow(2,k)
-    # the prob of obtaining AaBb in each individual is always 1/4
-    p = 1.0/4
+
+    '''
+    Binomial Probability mass function
+    '''
+
+    n = math.pow(2,k) # the k-th generation has 2^k posterities
+    p = 1.0/4 # the prob of obtaining AaBb in each individual is always 1/4
+
     return binom.pmf(x,n,p)
 
-# at least N AaBb offspring
-print round(1-sum(P(i) for i in range(N)),3)
+
+if __name__ == '__main__':
+
+    import sys
+    import math
+    from scipy.stats import *
+
+    k = int(Read_File().split(" ")[0])
+    N = int(Read_File().split(" ")[1])
+
+    print round(1-sum(P(i) for i in range(N)),3) # at least N AaBb offspring
