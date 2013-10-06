@@ -62,6 +62,7 @@ def codon_frequencies():
         if not frequencies.has_key(v):
             frequencies[v]=0
         frequencies[v] += 1
+
     return frequencies
 
 
