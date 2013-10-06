@@ -1,3 +1,6 @@
+#!/usr/bin/python
+
+
 '''
 Author:
 
@@ -5,17 +8,20 @@ Sanyk28 (san-heng-yi-shu@163.com)
 
 Date created:
 
-2 June 2013
+14 June 2013
 
 Rosalind problem:
 
-Given: A DNA string s of length at most 1000 nt.
+Inferring mRNA from Protein
 
-Return: Four integers (separated by spaces) counting the respective number of times that the symbols 'A', 'C', 'G', and 'T' occur in s.
+Given: A protein string of length at most 1000 aa
+
+Return: The total number of different RNA strings from which the protein could have been translated, modulo 1,000,000. 
+(Don't neglect the importance of the stop codon in protein translation.)
 
 Usage:
 
-python DNA.py [Input File]
+python MRNA.py [Input File]
 
 '''
 
@@ -39,6 +45,17 @@ RNA_CODON_TABLE = {
     'UGG': 'W',     'CGG': 'R',     'AGG': 'R',     'GGG': 'G'
 }
 
+
+def Read_File():
+
+    input_file = sys.argv[-1]
+    f = open(input_file)
+    raw_input = f.readline()
+    f.close()
+
+    return raw_input
+
+
 def codon_frequencies():
     frequencies = {}
     for v in RNA_CODON_TABLE.itervalues():
@@ -46,6 +63,7 @@ def codon_frequencies():
             frequencies[v]=0
         frequencies[v] += 1
     return frequencies
+
 
 def possible_RNA_strings(seq):
     frequency = codon_frequencies()
@@ -57,13 +75,10 @@ def possible_RNA_strings(seq):
     return n
 
 
-
 if __name__ == "__main__":
 
-    f = open("./rosalind_mrna.txt","r")
-    rd = f.readlines()
-    f.close()
+    import sys
 
-    protein=rd[0].strip()
+    protein = Read_File().strip()
 
     print possible_RNA_strings(protein)%1000000
