@@ -47,18 +47,7 @@ def PROB(seq, num):
     prob = math.pow(pA,nA)*math.pow(pT,nT)*math.pow(pG,nG)*math.pow(pC,nC)
 
     return round(math.log(prob,10),3)
-    '''
-    for ch in seq:
-        if ch == "A":
-            prob *= A
-        elif ch == "C":
-            prob *= C
-        elif ch == "T":
-            prob *= T
-        elif ch == "G":
-            prob *= G
-    return round(math.log10(prob),3)
-'''
+
 
 def Result(seq,nums):
 
