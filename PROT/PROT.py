@@ -5,35 +5,22 @@ Sanyk28 (san-heng-yi-shu@163.com)
 
 Date created:
 
-2 June 2013
+4 June 2013
 
 Rosalind problem:
 
-Given: A DNA string s of length at most 1000 nt.
+Translating RNA into Protein
 
-Return: Four integers (separated by spaces) counting the respective number of times that the symbols 'A', 'C', 'G', and 'T' occur in s.
+Given: An RNA string s corresponding to a strand of mRNA (of length at most 10 kbp)
+
+Return: The protein string encoded by s
 
 Usage:
 
-python DNA.py [Input File]
+python PROT.py [Input File]
 
 '''
 
-
-import re
-
-# read file
-f = open("./rosalind_prot.txt","r")
-rd = f.readlines()
-f.close()
-
-# get string
-RNA = rd[0].strip()
-##print RNA
-
-# sprint RNA in every 3 characters
-RNAs = re.findall('...',RNA)
-##print RNAs
 
 RNA_codon = {
     'UUU':'F', 'CUU':'L', 'AUU':'I', 'GUU':'V', 'UUC':'F', 'CUC':'L',
@@ -48,14 +35,44 @@ RNA_codon = {
     'AGC':'S', 'GGC':'G', 'UGA':'Stop', 'CGA':'R', 'AGA':'R', 'GGA':'G',
     'UGG':'W', 'CGG':'R', 'AGG':'R', 'GGG':'G'}
 
-# translate RNA to protein
-protein = []    
-for codon in RNAs:
-    if RNA_codon.get(codon) != "Stop":
-        protein.append(RNA_codon.get(codon))
-    else:
-        break
 
-fw = open("./rosalind_prot.output.txt","w")
-fw.write(''.join(protein))
-fw.close()
+def Read_File():
+
+    input_file = sys.argv[-1]
+
+    f = open(input_file)
+
+    raw_input = f.readline()
+
+    f.close()
+
+    return raw_input
+
+
+def Translate(RNA):
+
+    # sprint RNA in every 3 characters
+    RNAs = re.findall('...',RNA) 
+
+    # translate RNA to protein
+    protein = []    
+    for codon in RNAs:
+        if RNA_codon.get(codon) != "Stop":
+            protein.append(RNA_codon.get(codon))
+        else:
+            break
+    
+    return protein
+
+
+if __name__ == '__main__':
+
+    import sys
+    import re
+
+    seq = Read_File()
+    protein = Translate(seq)
+
+    fw = open("./rosalind_prot.output.txt","w")
+    fw.write(''.join(protein))
+    fw.close()
