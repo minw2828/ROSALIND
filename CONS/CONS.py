@@ -1,3 +1,6 @@
+#!/usr/bin/python
+
+
 '''
 Author:
 
@@ -5,41 +8,49 @@ Sanyk28 (san-heng-yi-shu@163.com)
 
 Date created:
 
-2 June 2013
+8 June 2013
 
 Rosalind problem:
 
-Given: A DNA string s of length at most 1000 nt.
+Consensus and Profile
 
-Return: Four integers (separated by spaces) counting the respective number of times that the symbols 'A', 'C', 'G', and 'T' occur in s.
+Given: A collection of at most 10 DNA strings of equal length (at most 1 kbp) in FASTA format
+
+Return: A consensus string and profile matrix for the collection
+(If several possible consensus strings exist, then you may return any one of them)
 
 Usage:
 
-python DNA.py [Input File]
+python CONS.py [Input File]
 
 '''
 
 
-## read file
-f = open("./rosalind_cons.txt","r")
-rd = f.readlines()
-f.close()
+def Read_File():
 
-# get strings
-seq = {}
-sequence = []
-for ird in rd:
-    if ird[0] == ">":
-        key = ird[1:].strip()
-        seq[key]=""
-    else:
-        seq[key]+="".join(ird.strip())
+    input_file = sys.argv[-1]
+    f = open(input_file)
+    raw_input = f.readlines()
+    f.close()
 
-##for items in seq.itervalues():
-##    print items+"\n"
+    return raw_input
+
+
+def Parse_FASTA(raw_input):
     
-def cons(strings):
-    from collections import Counter
+    data = {}
+    for item in raw_input:
+        if item[0] == '>':
+            key = item[1:].strip()
+            data[key] = ''
+        else:
+            data[key] += ''.join(item.strip())
+
+    return data
+
+    
+def Consensus(strings):
+    
     counters = map(Counter, zip(*strings))
 ##    print counters
 ##    print " "
@@ -52,6 +63,15 @@ def cons(strings):
 ##    print " "
     return consensus + "\n" + profile_matrix
 
-fw = open("./rosalind_cons.output.txt","w")
-fw.write(cons(seq.itervalues()))
-fw.close()
+
+if __name__ == '__main__':
+
+    import sys
+    from collections import Counter
+
+    raw_input = Read_File()
+    data = Parse_FASTA(raw_input)
+        
+    fw = open("./rosalind_cons.output.txt","w")
+    fw.write(Consensus(data.itervalues()))
+    fw.close()
