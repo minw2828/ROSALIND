@@ -1,3 +1,6 @@
+#!/usr/bin/python
+
+
 '''
 Author:
 
@@ -5,47 +8,54 @@ Sanyk28 (san-heng-yi-shu@163.com)
 
 Date created:
 
-2 June 2013
+5 June 2013
 
 Rosalind problem:
 
-Given: A DNA string s of length at most 1000 nt.
+Enumerating k-mers Lexicographically
 
-Return: Four integers (separated by spaces) counting the respective number of times that the symbols 'A', 'C', 'G', and 'T' occur in s.
+Given: A collection of at most 10 symbols defining an ordered alphabet, and a positive integer n (n<=10).
+
+Return: All strings of length n that can be formed from the alphabet, ordered lexicographically.
 
 Usage:
 
-python DNA.py [Input File]
+python LEXF.py [Input File]
 
 '''
 
 
-# read file
-f = open("./rosalind_lexf.txt","r")
-raw_data = f.readlines()
-f.close()
+def Read_File():
 
-##print raw_data
-##print type(raw_data)
+    input_file = sys.argv[-1]
+    f = open(input_file)
+    raw_input = f.readlines()
+    f.close()
 
-# obtain the string
-gstr = raw_data[0].strip().replace(" ","")
-#gstr = raw_data[0].strip().split(" ")
-n = int(raw_data[1].strip())
+    return raw_input
 
-#print gstr
 
 # generate kmers
 def alpha_combs(alphabet, n, acc='', res=[]):
+    
     if n == 0:
         res.append(acc)
     else:
         for c in alphabet:
             alpha_combs(alphabet, n - 1, acc + c, res)
+
     return res
 
-# write result to a file
-fw = open("./rosalind_lexf_output.txt","w")
-for p in alpha_combs(gstr, n):
-    fw.write(p+"\n")
-fw.close()
+
+if __name__ == '__main__':
+
+    import sys
+
+    raw_data = Read_File()
+    symbols = map(str,raw_data[0].strip().split(' '))
+    n = int(raw_data[1])
+
+    fw = open('./rosalind_lexf.output.txt','w')
+    for p in alpha_combs(symbols, n):
+        fw.write(p+'\n')
+    fw.close()
