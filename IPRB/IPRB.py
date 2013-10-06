@@ -5,7 +5,7 @@ Sanyk28 (san-heng-yi-shu@163.com)
 
 Date created:
 
-2 June 2013
+4 June 2013
 
 Rosalind problem:
 
