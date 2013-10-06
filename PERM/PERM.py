@@ -1,3 +1,5 @@
+#!/usr/bin/python
+
 '''
 Author:
 
@@ -5,39 +7,53 @@ Sanyk28 (san-heng-yi-shu@163.com)
 
 Date created:
 
-2 June 2013
+4 June 2013
 
 Rosalind problem:
 
-Given: A DNA string s of length at most 1000 nt.
+Enumerating Gene Orders
 
-Return: Four integers (separated by spaces) counting the respective number of times that the symbols 'A', 'C', 'G', and 'T' occur in s.
+Given: A positive integer n<=7.
+
+Return: The total number of permutations of length n, followed by a list of all such permutations (in any order).
 
 Usage:
 
-python DNA.py [Input File]
+python PERM.py [Input File]
 
 '''
 
 
-import itertools
-# read file
-f = open("./rosalind_perm.txt", "r")
-raw_data = f.readlines()
-f.close()
+def Read_File():
 
-# generate an ordering of positive integers into a list
-n = int(raw_data[0])
-numbers = []
-for N in range(1,n+1):
-    numbers.append(N)
-    
-# generate permutations
-pmt = list(itertools.permutations(numbers))
+    input_file = sys.argv[-1]
+    f = open(input_file)
+    raw_input = f.readline()
+    f.close()
 
-# write to a file abt permutations as required
-fw = open("./rosalind_perm_output.txt", "w")
-fw.write(str(len(pmt))+"\n")
-for tup in pmt:
-    fw.write(" ".join(str(elem) for elem in tup)+"\n")
-fw.close()
+    return raw_input
+
+
+def Enumerate_Gene_Orders(n):
+
+    numbers = []
+    for N in range(1,n+1):
+        numbers.append(N)
+    pmt = list(itertools.permutations(numbers)) # generate permutations
+  
+    return pmt
+
+
+if __name__ == '__main__':
+
+    import sys
+    import itertools
+
+    n = int(Read_File())
+    pmt = Enumerate_Gene_Orders(n)
+
+    fw = open("./rosalind_perm.output.txt", "w")
+    fw.write(str(len(pmt))+"\n")
+    for tup in pmt:
+        fw.write(" ".join(str(elem) for elem in tup)+"\n")
+    fw.close()
