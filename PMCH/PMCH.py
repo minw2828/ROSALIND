@@ -1,3 +1,6 @@
+#!/usr/bin/python
+
+
 '''
 Author:
 
@@ -5,38 +8,60 @@ Sanyk28 (san-heng-yi-shu@163.com)
 
 Date created:
 
-2 June 2013
+17 June 2013
 
 Rosalind problem:
 
-Given: A DNA string s of length at most 1000 nt.
+Perfect Matchings and RNA Secondary Structures
 
-Return: Four integers (separated by spaces) counting the respective number of times that the symbols 'A', 'C', 'G', and 'T' occur in s.
+Given: An RNA string s of length at most 80 bp having the same number of occurrences of 'A' as 'U' and the same number of occurrences of 'C' as 'G'.
+
+Return: The total possible number of perfect matchings of basepair edges in the bonding graph of s.
 
 Usage:
 
-python DNA.py [Input File]
+python PMCH.py [Input File]
 
 '''
 
 
-from math import factorial
+def Read_File():
+
+    input_file = sys.argv[-1]
+    f = open(input_file)
+    raw_input = f.readlines()
+    f.close()
+
+    return raw_input
+
+
+def Parse_FASTA(raw_input):
+    
+    data = {}
+    for item in raw_input:
+        if item[0] == '>':
+            key = item[1:].strip()
+            data[key] = ''
+        else:
+            data[key] += ''.join(item.strip())
+
+    return data
+
 
 def perfect_matching(seq):
+
     at = seq.count("A")
     gc = seq.count("G")
+
     return factorial(at)*factorial(gc)
+
     
 if __name__ == '__main__':
 
-    data = {}
-    rd = open("./rosalind_pmch.txt").readlines()
-    for ird in rd:
-        if ird[0]==">":
-            key = ird[1:].strip()
-            data[key] = ""
-        else:
-            data[key] += ird.strip()
+    import sys
+    from math import factorial
 
+    raw_input = Read_File()
+    data = Parse_FASTA(raw_input)
     seq = data.values()[0]
     print perfect_matching(seq)
