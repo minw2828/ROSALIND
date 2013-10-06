@@ -1,3 +1,6 @@
+#!/usr/bin/python
+
+
 '''
 Author:
 
@@ -5,38 +8,48 @@ Sanyk28 (san-heng-yi-shu@163.com)
 
 Date created:
 
-2 June 2013
+10 June 2013
 
 Rosalind problem:
 
-Given: A DNA string s of length at most 1000 nt.
+Overlap Graphs
 
-Return: Four integers (separated by spaces) counting the respective number of times that the symbols 'A', 'C', 'G', and 'T' occur in s.
+Given: A collection of DNA strings in FASTA format having total length at most 10 kbp
+
+Return: The adjacency list corresponding to O3. You may return edges in any order
 
 Usage:
 
-python DNA.py [Input File]
+python GRPH.py [Input File]
 
 '''
 
 
-# read file
-f = open("./rosalind_grph.txt","r")
-rd = f.readlines()
-f.close()
+def Read_File():
 
-# obtain data
-data = {}
-for ird in rd:
-    if ird[0] == ">":
-        key = ird[1:].strip()
-        data[key] = ""
-    else:
-        data[key] += "".join(ird.strip())
-##print data
+    input_file = sys.argv[-1]
+    f = open(input_file)
+    raw_input = f.readlines()
+    f.close()
+
+    return raw_input
+
+
+def Parse_FASTA(raw_input):
     
-# build overlap_graph function
-def overlap_graph(fasta, n):
+    data = {}
+    for item in raw_input:
+        if item[0] == '>':
+            key = item[1:].strip()
+            data[key] = ''
+        else:
+            data[key] += ''.join(item.strip())
+
+    return data
+
+    
+def Overlap_Graphs(fasta, n):
+
     results = []
     for k1, v1 in data.iteritems():
         for k2, v2 in data.iteritems():
@@ -45,8 +58,15 @@ def overlap_graph(fasta, n):
 
     return results
 
-# print result
-fw = open("./rosalind_grph.output.txt","w")
-for edge in overlap_graph(data,3):
-    fw.write(edge[0]+" "+edge[1]+"\n")
-fw.close()
+
+if __name__ == '__main__':
+
+    import sys
+
+    raw_data = Read_File()
+    data = Parse_FASTA(raw_data)
+
+    fw = open("./rosalind_grph.output.txt","w")
+    for edge in Overlap_Graphs(data,3):
+        fw.write(edge[0]+" "+edge[1]+"\n")
+    fw.close()
