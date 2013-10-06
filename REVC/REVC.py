@@ -1,3 +1,6 @@
+#!/usr/bin/python
+
+
 '''
 Author:
 
@@ -23,11 +26,8 @@ python REVC.py [Input File]
 def Read_File():
 
     input_file = sys.argv[-1]
-
     f = open(input_file)
-
     raw_input = f.readline()
-
     f.close()
 
     return raw_input
@@ -36,9 +36,8 @@ def Read_File():
 def Reverse_Complement(seq):
     
     seq = seq.upper()[::-1]
-
-    seqc = []
     
+    seqc = []
     for ch in seq:
         if ch == 'A':
             seqc.append('T')

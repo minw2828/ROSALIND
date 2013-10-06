@@ -1,3 +1,6 @@
+#!/usr/bin/python
+
+
 '''
 Author:
 
@@ -5,42 +8,50 @@ Sanyk28 (san-heng-yi-shu@163.com)
 
 Date created:
 
-2 June 2013
+7 June 2013
 
 Rosalind problem:
 
-Given: A DNA string s of length at most 1000 nt.
+Finding a Motif in DNA
 
-Return: Four integers (separated by spaces) counting the respective number of times that the symbols 'A', 'C', 'G', and 'T' occur in s.
+Given: Two DNA strings s and t (each of length at most 1 kbp)
+
+Return: All locations of t as a substring of s
 
 Usage:
 
-python DNA.py [Input File]
+python SUBS.py [Input File]
 
 '''
 
 
-import re
-import sys
+def Read_File():
 
-# read file
-f = open("./rosalind_subs.txt","r")
-rd = f.readlines()
-f.close()
+    input_file = sys.argv[-1]
+    f = open(input_file)
+    raw_input = f.readlines()
+    f.close()
 
-# obtain data
-DNA = rd[0].strip()
-motif = rd[1].strip()
+    return raw_input
 
-def find_motif(DNA, motif):
-    pos = []
-    for t in range(len(motif)):
-        for s in range(len(DNA)):
-            if DNA[s] == motif[t]:
-                if DNA[s:s+len(motif)] == motif:
-                    if s not in pos:
-                        pos.append(s)
-    return pos
 
-if len(DNA) >= len(motif):
-    print " ".join(str(m+1) for m in find_motif(DNA, motif))
+def Find_Motif(DNA, motif):
+    
+    pos = set([m.start() for m in re.finditer(motif,DNA)])
+    for i in pos:
+	pos = pos.union(set([m.start()+i+1 for m in re.finditer(motif,DNA[i+1:])]))
+    
+    return sorted(pos)
+
+
+if __name__ == '__main__':
+
+    import re
+    import sys
+    from sets import Set
+    
+    DNA = Read_File()[0].strip()
+    motif = Read_File()[1].strip()
+
+    if len(DNA) >= len(motif):
+        print " ".join(str(m+1) for m in Find_Motif(DNA, motif))

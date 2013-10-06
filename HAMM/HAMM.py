@@ -1,3 +1,6 @@
+#!/usr/bin/python
+
+
 '''
 Author:
 
@@ -21,14 +24,12 @@ python HAMM.py [Input File]
 
 '''
 
+
 def Read_File():
 
     input_file = sys.argv[-1]
-
     f = open(input_file)
-
     raw_input = f.readlines()
-
     f.close()
 
     return raw_input
@@ -37,7 +38,6 @@ def Read_File():
 def Count_Point_Mutations(s,t):
 
     count = 0 
-
     for i in range(len(s)):
         if s[i] != t[i]:
             count += 1

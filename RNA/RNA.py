@@ -1,3 +1,6 @@
+#!/usr/bin/python
+
+
 '''
 Author:
 
@@ -25,11 +28,8 @@ python DNA.py [Input File]
 def Read_File():
 
     input_file = sys.argv[-1]
-
     f = open(input_file)
-
     raw_input = f.readline()
-
     f.close()
 
     return raw_input
@@ -39,7 +39,6 @@ def Read_File():
 def Transcrib_DNA_into_RNA(seq):
     
     seq = seq.upper()
-
     seq = seq.replace('T','U')
 
     return seq

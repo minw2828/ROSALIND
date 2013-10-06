@@ -1,3 +1,6 @@
+#!/usr/bin/python
+
+
 '''
 Author:
 
@@ -26,11 +29,8 @@ python GC.py [Input File]
 def Read_File():
 
     input_file = sys.argv[-1]
-
     f = open(input_file)
-
     raw_input = f.readlines()
-
     f.close()
 
     return raw_input
@@ -39,7 +39,6 @@ def Read_File():
 def Parse_FASTA(raw_input):
     
     data = {}
-    
     for item in raw_input:
         if item[0] == '>':
             key = item[1:].strip()
@@ -53,7 +52,6 @@ def Parse_FASTA(raw_input):
 def Compute_GC_Content(seq):
     
     seq = seq.upper()
-
     count = {'G':seq.count('G'), 'C':seq.count('C')}
     GC = float(count['G']+count['C'])/len(seq)
     
@@ -63,7 +61,6 @@ def Compute_GC_Content(seq):
 def Dict_IdGC(dict_data):
 
     IdGC = {}
-
     for key, value in dict_data.items():
         IdGC[key] = Compute_GC_Content(value)
   
@@ -83,9 +80,7 @@ if __name__ == '__main__':
     import sys
 
     raw_data = Read_File()
-
     data = Parse_FASTA(raw_data)
-
     IdGC = Dict_IdGC(data)
 
     print '{0}\n{1:.6f}'.format(Find_Max(IdGC)[0], Find_Max(IdGC)[1]*100)

@@ -1,3 +1,6 @@
+#!/usr/bin/python
+
+
 '''
 Author:
 
@@ -25,11 +28,8 @@ python DNA.py [Input File]
 def Read_File():
 
     input_file = sys.argv[-1]
-
     f = open(input_file)
-
     raw_input = f.readline()
-
     f.close()
 
     return raw_input
@@ -38,7 +38,6 @@ def Read_File():
 def Count_DNA_Nucleotides(seq):
 
     seq = seq.upper()
-    
     count = {"A": seq.count('A'), "C": seq.count('C'), "G": seq.count('G'), "T": seq.count('T')}
 
     return count
@@ -49,7 +48,6 @@ if __name__ == '__main__':
     import sys
 
     seq = Read_File()
-
     value = Count_DNA_Nucleotides(seq)
 
     print value["A"], value["C"], value["G"], value["T"]

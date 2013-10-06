@@ -1,3 +1,6 @@
+#!/usr/bin/python
+
+
 '''
 Author:
 
@@ -39,11 +42,8 @@ RNA_codon = {
 def Read_File():
 
     input_file = sys.argv[-1]
-
     f = open(input_file)
-
     raw_input = f.readline()
-
     f.close()
 
     return raw_input
@@ -73,6 +73,6 @@ if __name__ == '__main__':
     seq = Read_File()
     protein = Translate(seq)
 
-    fw = open("./rosalind_prot.output.txt","w")
+    fw = open('./rosalind_prot.output.txt','w')
     fw.write(''.join(protein))
     fw.close()
