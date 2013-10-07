@@ -8,32 +8,42 @@ Sanyk28 (san-heng-yi-shu@163.com)
 
 Date created:
 
-2 June 2013
+17 June 2013
 
 Rosalind problem:
 
-Given: A DNA string s of length at most 1000 nt.
+Maximum Matchings and RNA Secondary Structures
 
-Return: Four integers (separated by spaces) counting the respective number of times that the symbols 'A', 'C', 'G', and 'T' occur in s.
+Given: An RNA string s of length at most 100.
+
+Return: The total possible number of maximum matchings of basepair edges in the bonding graph of s.
 
 Usage:
 
-python DNA.py [Input File]
+python MMCH.py [Input File]
 
 '''
 
 
-from math import factorial
+def Read_File():
 
-def parse_fasta(fasta):
+    input_file = sys.argv[-1]
+    f = open(input_file)
+    raw_input = f.readlines()
+    f.close()
+
+    return raw_input
+
+
+def parse_fasta(raw_input):
+    
     data = {}
-
-    for ird in open(fasta).readlines():
-        if ird[0]==">":
-            key=ird[1:].strip()
-            data[key]=""
+    for item in raw_input:
+        if item[0] == '>':
+            key = item[1:].strip()
+            data[key] = ''
         else:
-            data[key]+=ird.strip()
+            data[key] += ''.join(item.strip())
 
     return data
 
@@ -64,10 +74,11 @@ def maximum_matching(fre):
 
 if __name__ == '__main__':
 
-    test_dataset = "./test.txt"
-    large_dataset = "./rosalind_mmch.txt"
+    import sys
+    from math import factorial
 
-    seq = parse_fasta(large_dataset).values()[0]
+    raw_data = Read_File()
+    seq = parse_fasta(raw_data).values()[0]
     fre = frequency(seq)
     result = maximum_matching(fre)
 

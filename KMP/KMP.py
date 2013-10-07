@@ -8,38 +8,50 @@ Sanyk28 (san-heng-yi-shu@163.com)
 
 Date created:
 
-2 June 2013
+20 June 2013
 
 Rosalind problem:
 
-Given: A DNA string s of length at most 1000 nt.
+Speeding Up Motif Finding
 
-Return: Four integers (separated by spaces) counting the respective number of times that the symbols 'A', 'C', 'G', and 'T' occur in s.
+Given: A DNA string s (of length at most 100 kbp) in FASTA format.
+
+Return: The failure array of s.
 
 Usage:
 
-python DNA.py [Input File]
+python KMP.py [Input File]
 
 '''
 
 
-def parse_fasta(fasta):
-    data={}
+def Read_File():
 
-    for ird in open(fasta).readlines():
-        if ird[0]==">":
-            key=ird[1:].strip()
-            data[key]=""
+    input_file = sys.argv[-1]
+    f = open(input_file)
+    raw_input = f.readlines()
+    f.close()
+
+    return raw_input
+
+
+def parse_fasta(raw_input):
+    
+    data = {}
+    for item in raw_input:
+        if item[0] == '>':
+            key = item[1:].strip()
+            data[key] = ''
         else:
-            data[key]+=ird.strip()
+            data[key] += ''.join(item.strip())
 
     return data
 
 
 def kmp_preprocess(s):
+
     j = -1
     b = [j]
-
     for i, c in enumerate(s):
         while j >= 0 and s[j] != c:
             j = b[j]
@@ -52,8 +64,10 @@ def kmp_preprocess(s):
 
 if __name__ == '__main__':
 
-    s = parse_fasta("./rosalind_kmp.txt").values()[0]
+    import sys
 
+    raw_data = Read_File()
+    s = parse_fasta(raw_data).values()[0]
     result = kmp_preprocess(s)
 
     fw = open("./rosalind_kmp.otuput.txt","w")
