@@ -27,9 +27,8 @@ python IPRB.py [Input File]
 '''
 
 
-def Read_File():
+def Read_File(input_file):
 
-    input_file = sys.argv[-1]
     f = open(input_file)
     raw_input = f.readline()
     f.close()
@@ -52,6 +51,6 @@ if __name__ == '__main__':
 
     import sys
 
-    k,m,n = Read_File().split(' ')
+    k,m,n = Read_File(sys.argv[-1]).split(' ')
 
     print '{0:.5f}'.format(Mendelian_Inheritance(float(k),float(m),float(n)))

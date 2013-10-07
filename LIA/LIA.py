@@ -30,9 +30,8 @@ python LIA.py [Input File]
 '''
 
 
-def Read_File():
+def Read_File(input_file):
 
-    input_file = sys.argv[-1]
     f = open(input_file)
     raw_input = f.readline()
     f.close()
@@ -58,7 +57,6 @@ if __name__ == '__main__':
     import math
     from scipy.stats import *
 
-    k = int(Read_File().split(" ")[0])
-    N = int(Read_File().split(" ")[1])
+    k, N = int(Read_File(sys.argv[-1]).split(" ")[0]), int(Read_File(sys.argv[-1]).split(" ")[1])
 
     print round(1-sum(P(i) for i in range(N)),3) # at least N AaBb offspring

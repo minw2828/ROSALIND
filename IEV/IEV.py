@@ -35,9 +35,8 @@ python IEV.py [Input File]
 '''
 
 
-def Read_File():
+def Read_File(input_file):
 
-    input_file = sys.argv[-1]
     f = open(input_file)
     raw_input = f.readline()
     f.close()
@@ -62,7 +61,7 @@ if __name__ == '__main__':
 
     import sys
 
-    raw_input = Read_File()
+    raw_input = Read_File(sys.argv[-1])
     couples = map(int, raw_input.split())
 
     print Calculat_Expected_Offspring(couples)

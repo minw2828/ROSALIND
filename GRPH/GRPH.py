@@ -25,9 +25,8 @@ python GRPH.py [Input File]
 '''
 
 
-def Read_File():
+def Read_File(input_file):
 
-    input_file = sys.argv[-1]
     f = open(input_file)
     raw_input = f.readlines()
     f.close()
@@ -63,7 +62,7 @@ if __name__ == '__main__':
 
     import sys
 
-    raw_data = Read_File()
+    raw_data = Read_File(sys.argv[-1])
     data = Parse_FASTA(raw_data)
 
     fw = open("./rosalind_grph.output.txt","w")

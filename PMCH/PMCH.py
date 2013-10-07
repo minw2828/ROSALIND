@@ -25,9 +25,8 @@ python PMCH.py [Input File]
 '''
 
 
-def Read_File():
+def Read_File(input_file):
 
-    input_file = sys.argv[-1]
     f = open(input_file)
     raw_input = f.readlines()
     f.close()
@@ -61,7 +60,7 @@ if __name__ == '__main__':
     import sys
     from math import factorial
 
-    raw_input = Read_File()
+    raw_input = Read_File(sys.argv[-1])
     data = Parse_FASTA(raw_input)
     seq = data.values()[0]
     print perfect_matching(seq)

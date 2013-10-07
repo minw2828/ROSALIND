@@ -24,9 +24,8 @@ python PERM.py [Input File]
 '''
 
 
-def Read_File():
+def Read_File(input_file):
 
-    input_file = sys.argv[-1]
     f = open(input_file)
     raw_input = f.readline()
     f.close()
@@ -49,7 +48,7 @@ if __name__ == '__main__':
     import sys
     import itertools
 
-    n = int(Read_File())
+    n = int(Read_File(sys.argv[-1]))
     pmt = Enumerate_Gene_Orders(n)
 
     fw = open("./rosalind_perm.output.txt", "w")

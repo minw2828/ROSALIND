@@ -27,9 +27,8 @@ python RSTR.py [Input File]
 '''
 
 
-def Read_File():
+def Read_File(input_file):
 
-    input_file = sys.argv[-1]
     f = open(input_file)
     raw_input = f.readlines()
     f.close()
@@ -52,7 +51,7 @@ if __name__ == '__main__':
     from scipy.stats import *
 
 
-    raw_data = Read_File()
+    raw_data = Read_File(sys.argv[-1])
     N,x,s = int(raw_data[0].strip().split(' ')[0]), float(raw_data[0].strip().split(' ')[1]), raw_data[1].strip()
 
     print round(problem(N,x,s),3)

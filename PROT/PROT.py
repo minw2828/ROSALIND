@@ -39,9 +39,8 @@ RNA_codon = {
     'UGG':'W', 'CGG':'R', 'AGG':'R', 'GGG':'G'}
 
 
-def Read_File():
+def Read_File(input_file):
 
-    input_file = sys.argv[-1]
     f = open(input_file)
     raw_input = f.readline()
     f.close()
@@ -70,7 +69,7 @@ if __name__ == '__main__':
     import sys
     import re
 
-    seq = Read_File()
+    seq = Read_File(sys.argv[-1])
     protein = Translate(seq)
 
     fw = open('./rosalind_prot.output.txt','w')

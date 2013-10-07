@@ -25,9 +25,8 @@ python SUBS.py [Input File]
 '''
 
 
-def Read_File():
+def Read_File(input_file):
 
-    input_file = sys.argv[-1]
     f = open(input_file)
     raw_input = f.readlines()
     f.close()
@@ -50,8 +49,7 @@ if __name__ == '__main__':
     import sys
     from sets import Set
     
-    DNA = Read_File()[0].strip()
-    motif = Read_File()[1].strip()
+    DNA, motif = Read_File(sys.argv[-1])[0].strip(), Read_File(sys.argv[-1])[1].strip()
 
     if len(DNA) >= len(motif):
         print " ".join(str(m+1) for m in Find_Motif(DNA, motif))

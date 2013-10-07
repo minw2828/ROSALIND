@@ -25,9 +25,8 @@ python DNA.py [Input File]
 '''
 
 
-def Read_File():
+def Read_File(input_file):
 
-    input_file = sys.argv[-1]
     f = open(input_file)
     raw_input = f.readline()
     f.close()
@@ -47,7 +46,7 @@ if __name__ == '__main__':
 
     import sys
 
-    seq = Read_File()
+    seq = Read_File(sys.argv[-1])
     value = Count_DNA_Nucleotides(seq)
 
     print value["A"], value["C"], value["G"], value["T"]

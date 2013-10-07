@@ -25,9 +25,8 @@ python HAMM.py [Input File]
 '''
 
 
-def Read_File():
+def Read_File(input_file):
 
-    input_file = sys.argv[-1]
     f = open(input_file)
     raw_input = f.readlines()
     f.close()
@@ -49,7 +48,6 @@ if __name__ == '__main__':
 
     import sys
 
-    s = Read_File()[0].strip()
-    t = Read_File()[1].strip()
+    s,t = Read_File(sys.argv[-1])[0].strip(), Read_File(sys.argv[-1])[1].strip()
 
     print Count_Point_Mutations(s,t)

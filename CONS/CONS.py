@@ -26,9 +26,8 @@ python CONS.py [Input File]
 '''
 
 
-def Read_File():
+def Read_File(input_file):
 
-    input_file = sys.argv[-1]
     f = open(input_file)
     raw_input = f.readlines()
     f.close()
@@ -52,15 +51,9 @@ def Parse_FASTA(raw_input):
 def Consensus(strings):
     
     counters = map(Counter, zip(*strings))
-##    print counters
-##    print " "
     consensus = "".join(c.most_common(1)[0][0] for c in counters)
-##    print consensus
-##    print " "
     profile_matrix = "\n".join(b + ": " + \
         " ".join(str(c[b]) for c in counters) for b in "ACGT")
-##    print profile_matrix
-##    print " "
     return consensus + "\n" + profile_matrix
 
 
@@ -69,7 +62,7 @@ if __name__ == '__main__':
     import sys
     from collections import Counter
 
-    raw_input = Read_File()
+    raw_input = Read_File(sys.argv[-1])
     data = Parse_FASTA(raw_input)
         
     fw = open("./rosalind_cons.output.txt","w")

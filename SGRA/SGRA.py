@@ -8,17 +8,20 @@ Sanyk28 (san-heng-yi-shu@163.com)
 
 Date created:
 
-2 June 2013
+24 June 2013
 
 Rosalind problem:
 
-Given: A DNA string s of length at most 1000 nt.
+Using the Spectrum Graph to Infer Peptides 
 
-Return: Four integers (separated by spaces) counting the respective number of times that the symbols 'A', 'C', 'G', and 'T' occur in s.
+Given: A list L (of length at most 100) containing positive real numbers.
+
+Return: The longest protein string that matches the spectrum graph of L 
+(if multiple solutions exist, you may output any one of them)
 
 Usage:
 
-python DNA.py [Input File]
+python SGRA.py [Input File]
 
 '''
 
@@ -33,17 +36,20 @@ Monoisotopic_Mass_Table = {
     'W':   186.07931,   'Y':   163.06333 }
 
 
-def read_file(rd):
-    L = []
-    for line in open(rd).readlines():
-        L.append(float(line.strip()))
-    L = sorted(L)
-    return L
+def Read_File(input_file):
+
+    f = open(input_file)
+    raw_input = f.readlines()
+    f.close()
+
+    return raw_input
 
 
 def getKbyV(v):
+
     for key, value in Monoisotopic_Mass_Table.items():
         if round(v,4) == round(value,4):
+
             return key
 
 
@@ -65,7 +71,10 @@ def sgra_process(L):
 
 if __name__ == '__main__':
 
-    L = read_file('./rosalind_sgra.txt')
-    
+    import sys
+ 
+    raw_data = Read_File(sys.argv[-1])
+    L = [float(i) for i in raw_data]
+
     print sgra_process(L)
 

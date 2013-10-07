@@ -8,34 +8,46 @@ Sanyk28 (san-heng-yi-shu@163.com)
 
 Date created:
 
-2 June 2013
+23 June 2013
 
 Rosalind problem:
 
-Given: A DNA string s of length at most 1000 nt.
+Comparing Spectra with the Spectral Convolution
 
-Return: Four integers (separated by spaces) counting the respective number of times that the symbols 'A', 'C', 'G', and 'T' occur in s.
+Given: Two multisets of positive real numbers S1 and S2. The size of each multiset is at most 200.
+
+Return: The largest multiplicity of S1 and S2, as well as the absolute value of the number x maximizing
+(you may return any such value if multiple solutions exist).
 
 Usage:
 
-python DNA.py [Input File]
+python CONV.py [Input File]
 
 '''
 
 
-from decimal import *
+def Read_File(input_file):
+
+    f = open(input_file)
+    raw_input = f.readlines()
+    f.close()
+
+    return raw_input
+
 
 def m_diff(S1,S2):
+
     ret_diff = []
     for iS1 in S1:
         for iS2 in S2:
             ret_diff.append(abs(iS1 - iS2))
+
     return ret_diff
 
 
 def max_multiplicity(m):
-    multiplicity = {}
 
+    multiplicity = {}
     for s in m:
         if multiplicity.has_key(s):
             multiplicity[s] += 1
@@ -49,25 +61,21 @@ def max_multiplicity(m):
         if multiplicity[s] > max_multiplicity:
             max_multiplicity = multiplicity[s]
             max_key = s
+
     return (max_key, max_multiplicity)
     
 
 if __name__ == '__main__':
 
-    rd = open('./rosalind_conv.txt').readlines()
-    S1 = list(Decimal(iS1) for iS1 in rd[0].strip().split(' '))
-    S2 = list(Decimal(iS2) for iS2 in rd[1].strip().split(' '))
+    import sys
+    from decimal import *
+    
+    raw_data = Read_File(sys.argv[-1])
+    S1 = list(Decimal(iS1) for iS1 in raw_data[0].strip().split(' '))
+    S2 = list(Decimal(iS2) for iS2 in raw_data[1].strip().split(' '))
 
     m = m_diff(S1,S2)
 
     print max_multiplicity(m)[1]
     print max_multiplicity(m)[0]
     
-
-    
-            
-    
-
-
-
-        

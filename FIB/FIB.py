@@ -26,9 +26,8 @@ python FIB.py [Input File]
 '''
 
 
-def Read_File():
+def Read_File(input_file):
 
-    input_file = sys.argv[-1]
     f = open(input_file)
     raw_input = f.readline()
     f.close()
@@ -50,6 +49,6 @@ if __name__ == '__main__':
 
     import sys
 
-    n,k = Read_File().split(' ')
+    n,k = Read_File(sys.argv[-1]).split(' ')
 
     print Rabbits(int(n),int(k))

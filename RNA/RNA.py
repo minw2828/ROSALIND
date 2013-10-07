@@ -25,15 +25,13 @@ python DNA.py [Input File]
 '''
 
 
-def Read_File():
+def Read_File(input_file):
 
-    input_file = sys.argv[-1]
     f = open(input_file)
     raw_input = f.readline()
     f.close()
 
     return raw_input
-
 
 
 def Transcrib_DNA_into_RNA(seq):
@@ -48,6 +46,6 @@ if __name__ == '__main__':
 
     import sys
 
-    seq = Read_File()
+    seq = Read_File(sys.argv[-1])
 
     print Transcrib_DNA_into_RNA(seq)

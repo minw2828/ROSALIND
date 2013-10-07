@@ -25,9 +25,8 @@ python PROB.py [Input File]
 '''
 
 
-def Read_File():
+def Read_File(input_file):
 
-    input_file = sys.argv[-1]
     f = open(input_file)
     raw_input = f.readlines()
     f.close()
@@ -63,7 +62,7 @@ if __name__ == '__main__':
     import sys
     import math
 
-    raw_data = Read_File()
+    raw_data = Read_File(sys.argv[-1])
     seq = raw_data[0].strip()
     arrayA = map(float, raw_data[1].split(" "))
     print ' '.join(map(str, Result(seq, arrayA))) 

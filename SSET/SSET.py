@@ -8,24 +8,37 @@ Sanyk28 (san-heng-yi-shu@163.com)
 
 Date created:
 
-2 June 2013
+19 June 2013
 
 Rosalind problem:
 
-Given: A DNA string s of length at most 1000 nt.
+Counting Subsets
 
-Return: Four integers (separated by spaces) counting the respective number of times that the symbols 'A', 'C', 'G', and 'T' occur in s.
+Given: A positive integer n (n<=1000).
+
+Return: The total number of subsets of {1,2,...,n} modulo 1,000,000.
 
 Usage:
 
-python DNA.py [Input File]
+python SSET.py [Input File]
 
 '''
 
 
-import math
+def Read_File(input_file):
+
+    f = open(input_file)
+    raw_input = f.readline()
+    f.close()
+
+    return raw_input
+
 
 if __name__ == '__main__':
 
-    n = int(open("./rosalind_sset.txt").readlines()[0].strip())
-    print math.pow(2,n)%1000000
+    import sys
+    import math 
+
+    
+    n = int(Read_File(sys.argv[-1]))
+    print int(math.pow(2,n)%1000000)
