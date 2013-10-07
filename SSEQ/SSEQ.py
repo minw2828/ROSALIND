@@ -1,3 +1,6 @@
+#!/usr/bin/python
+
+
 '''
 Author:
 
@@ -5,59 +8,72 @@ Sanyk28 (san-heng-yi-shu@163.com)
 
 Date created:
 
-2 June 2013
+10 June 2013
 
 Rosalind problem:
 
-Given: A DNA string s of length at most 1000 nt.
+Finding a Spliced Motif
 
-Return: Four integers (separated by spaces) counting the respective number of times that the symbols 'A', 'C', 'G', and 'T' occur in s.
+Given: Two DNA strings s and t (each of length at most 1 kbp) in FASTA format.
+
+Return: One collection of indices of s in which the symbols of t appear as a subsequence of s. 
+If multiple solutions exist, you may return any one
 
 Usage:
 
-python DNA.py [Input File]
+python SSEQ.py [Input File]
 
 '''
 
 
-# read file
-f = open("./rosalind_sseq.txt","r")
-rd = f.readlines()
-f.close()
+def Read_File():
 
-# obtain data
-data = {}
-for ird in rd:
-    if ird[0] == ">":
-        key = ird[1:].strip()
-        data[key]=""
-    else:
-        data[key]+="".join(ird.strip())
-##print data
+    input_file = sys.argv[-1]
+    f = open(input_file)
+    raw_input = f.readlines()
+    f.close()
 
-# obtain sequence s and subsequence t
-seq = ""
-subseq = ""
-for value1 in data.itervalues():
-    for value2 in data.itervalues():
-        if len(value1) > len(value2):
-            seq = value1
-            subseq = value2
-##print seq
-##print subseq
+    return raw_input
 
-# find indices of subseq in seq
-indices = []
-indice = 0
-s = seq
-i = 0
-for t in subseq:
-    indice = s.find(t)
-    indices.append(indice+1+i)
-    i = indice+i+1
-    s = s[indice+1:]
 
-fw = open("./rosalind_sseq.output.txt","w")
-for indice in indices:
-    fw.write(str(indice)+" ")
-fw.close()
+def Parse_FASTA(raw_input):
+    
+    data = {}
+    for item in raw_input:
+        if item[0] == '>':
+            key = item[1:].strip()
+            data[key] = ''
+        else:
+            data[key] += ''.join(item.strip())
+
+    return data
+
+
+def Find_Spliced_Motif(data):
+
+    seqs = data.values()
+    seq = max(seqs,key=len)
+    seqs.remove(seq)
+    subseq = seqs[0]
+
+    indices = []
+    i = 0
+    for t in subseq:
+        indices.append(seq.index(t,i))
+        i = seq.index(t,i)
+    return indices
+    
+
+if __name__ == '__main__':
+
+    import sys
+    import re
+
+    raw_data = Read_File()
+    data = Parse_FASTA(raw_data)
+    indices = [x+1 for x in Find_Spliced_Motif(data)]
+    
+    fw = open('./rosalind_sseq.output.txt','w')
+    fw.write(' '.join(map(str, indices)))
+    fw.close()
+    
