@@ -1,3 +1,6 @@
+#!/usr/bin/python
+
+
 '''
 Author:
 
@@ -5,62 +8,102 @@ Sanyk28 (san-heng-yi-shu@163.com)
 
 Date created:
 
-2 June 2013
+10 June 2013
 
 Rosalind problem:
 
-Given: A DNA string s of length at most 1000 nt.
+Transitions and Transversions
 
-Return: Four integers (separated by spaces) counting the respective number of times that the symbols 'A', 'C', 'G', and 'T' occur in s.
+Given: Two DNA strings s1 and s2 of equal length (at most 1 kbp).
+
+Return: The transition/transversion ratio R(s1,s2).
 
 Usage:
 
-python DNA.py [Input File]
+python TRAN.py [Input File]
 
 '''
 
 
-# read file
-f = open("./rosalind_tran.txt","r")
-rd = f.readlines()
-f.close()
+def Read_File():
 
-# obtain data
-data = {}
-for ird in rd:
-    if ird[0]==">":
-        key=ird[1:].strip()
-        data[key]=""
+    input_file = sys.argv[-1]
+    f = open(input_file)
+    raw_input = f.readlines()
+    f.close()
+
+    return raw_input
+
+
+def Parse_FASTA(raw_input):
+    
+    data = {}
+    for item in raw_input:
+        if item[0] == '>':
+            key = item[1:].strip()
+            data[key] = ''
+        else:
+            data[key] += ''.join(item.strip())
+
+    return data
+
+
+def Point_Mutation(s,t):
+
+    '''
+    Compare s and t
+    Return a list of point mutation positions in s and t
+    '''
+
+    if len(s) != len(t):
+        raise Exception('Inequal length of the two sequences')
+    PM = []
+    for i in range(len(s)):
+        if s[i] != t[i]:
+           PM.append(i) 
+
+    return PM
+
+
+def Check_TiTv(a,b):
+    
+    '''
+    True: Transition
+    False: Transverstion or Equal(No Point Mutation)
+    '''
+    
+    if a == 'A' and b == 'G':
+        return True
+    elif a == 'G' and b == 'A':
+        return True
+    elif a == 'C' and b == 'T':
+        return True
+    elif a == 'T' and b == 'C':
+        return True
     else:
-        data[key]+="".join(ird.strip())
-##print data
+        return False
 
-# obtain seqs
-seq = []
-for value in data.itervalues():
-    seq.append(value)
-##print seq
 
-# build up check ti/tv function:
-def check_titv(c):
-    if c == "A" or c == "G":
-        return 0
-    if c == "T" or c == "C":
-        return 1
+def Transitions_Transversions(s, t, PM):
 
-# calculate the number of trasition and transversion
-transition = 0.0
-transversion = 0.0
-for i in range(len(seq[0])):
-    if seq[0][i] != seq[1][i]:
-        if check_titv(seq[0][i])==0 and check_titv(seq[1][i])==0:
-            transition+=1
-        elif check_titv(seq[0][i])==1 and check_titv(seq[1][i])==1:
-            transition+=1
-        elif check_titv(seq[0][i])==0 and check_titv(seq[1][i])==1:
-            transversion+=1
-        elif check_titv(seq[0][i])==1 and check_titv(seq[1][i])==0:
-            transversion+=1
+    ti, tv = 0, 0
+    for i in PM:
+        if Check_TiTv(s[i], t[i]) == True:
+            ti += 1
+        else:
+            tv += 1
 
-# print transition/transversion ratio
-print transition/transversion
+    return ti,tv
+
+
+if __name__ == '__main__':
+
+    import sys
+
+    raw_data = Read_File()
+    data = Parse_FASTA(raw_data)
+    s, t = data.values()[0], data.values()[1]
+    PM = Point_Mutation(s,t)
+    ti,tv = Transitions_Transversions(s,t,PM)[0], Transitions_Transversions(s,t,PM)[1]
+
+    print float(ti)/tv

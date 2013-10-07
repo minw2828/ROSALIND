@@ -67,7 +67,6 @@ def Find_Spliced_Motif(data):
 if __name__ == '__main__':
 
     import sys
-    import re
 
     raw_data = Read_File()
     data = Parse_FASTA(raw_data)
