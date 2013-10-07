@@ -1,3 +1,6 @@
+#!/usr/bin/python
+
+
 '''
 Author:
 
@@ -5,33 +8,42 @@ Sanyk28 (san-heng-yi-shu@163.com)
 
 Date created:
 
-2 June 2013
+17 June 2013
 
 Rosalind problem:
 
-Given: A DNA string s of length at most 1000 nt.
+k-Mer Composition
 
-Return: Four integers (separated by spaces) counting the respective number of times that the symbols 'A', 'C', 'G', and 'T' occur in s.
+Given: A DNA string s in FASTA format (having length at most 100 kbp).
+
+Return: The 4-mer composition of s.
 
 Usage:
 
-python DNA.py [Input File]
+python KMER.py [Input File]
 
 '''
 
 
-from itertools import product
+def Read_File():
+
+    input_file = sys.argv[-1]
+    f = open(input_file)
+    raw_input = f.readlines()
+    f.close()
+
+    return raw_input
 
 
-def parse_fasta(fasta):
+def parse_fasta(raw_input):
+    
     data = {}
-
-    for ird in open(fasta).readlines():
-        if ird[0]==">":
-            key = ird[1:].strip()
-            data[key]=""
+    for item in raw_input:
+        if item[0] == '>':
+            key = item[1:].strip()
+            data[key] = ''
         else:
-            data[key]+=ird.strip()
+            data[key] += ''.join(item.strip())
 
     return data
 
@@ -66,9 +78,10 @@ def result(fasta):
 
 if __name__ == '__main__':
 
-    test_dataset = "./test.txt"
-    large_dataset = "./rosalind_kmer.txt"
+    import sys
+    from itertools import product
 
-##    print " ".join(map(str,result(test_dataset)))
-    print " ".join(map(str,result(large_dataset)))
+    raw_data = Read_File()
+
+    print " ".join(map(str,result(raw_data)))
     
