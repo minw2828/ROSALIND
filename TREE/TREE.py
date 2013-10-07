@@ -1,3 +1,6 @@
+#!/usr/bin/python
+
+
 '''
 Author:
 
@@ -5,19 +8,31 @@ Sanyk28 (san-heng-yi-shu@163.com)
 
 Date created:
 
-2 June 2013
+19 June 2013
 
 Rosalind problem:
 
-Given: A DNA string s of length at most 1000 nt.
+Completing a Tree
 
-Return: Four integers (separated by spaces) counting the respective number of times that the symbols 'A', 'C', 'G', and 'T' occur in s.
+Given: A positive integer n (n<=1000) and an adjacency list corresponding to a graph on n nodes that contains no cycles.
+
+Return: The minimum number of edges that can be added to the graph to produce a tree.
 
 Usage:
 
-python DNA.py [Input File]
+python TREE.py [Input File]
 
 '''
+
+
+def Read_File():
+
+    input_file = sys.argv[-1]
+    f = open(input_file)
+    raw_input = f.readlines()
+    f.close()
+
+    return raw_input
 
 
 def split_adjList(ad_list):
@@ -27,6 +42,7 @@ def split_adjList(ad_list):
         item2 = int(item.strip().split()[1])
         adj_list.append([item1,item2])
     return adj_list    
+
 
 def combine_list(adjacencies, field):
     trees = []
@@ -62,9 +78,11 @@ def combine_list(adjacencies, field):
 
 if __name__ == '__main__':
 
-    rd = open("rosalind_tree.txt").readlines()
-    nodes = range(1,int(rd[0].strip())+1)
-    adjacency_list = split_adjList(rd[1:])
+    import sys
+
+    raw_data = Read_File()
+    nodes = range(1,int(raw_data[0].strip())+1)
+    adjacency_list = split_adjList(raw_data[1:])
 
     print combine_list(adjacency_list, nodes)
     
