@@ -1,1 +1,66 @@
-CCGAACTTCTGAAACTATGACTTTGCCATGCGTTCTCTCCGTGGCTGTCTACATATTTTAACCCTCCCATCGCGGATGGTATCCAAGTTTTGGTGAATTACATTAGAAAGTCGTTCATAGTACGAGCCTAATAGTCGCCTGGCGATGTCCTCAAGTTGTAATTTATCGGTGCGGTAAGTTACGCATCTCATAGCGCGGAAATGCATAAACGGCAGTCGATGACATTGAAGAGTTAGGTTTCGGATAATAGCGAATACCTTTAAGGGCCGAGACCCGATAAAAGGGCGCGTAGCGCGTGTGGACGTTTGCAGCTAATGTTTAACGGATGTTTCCTCACAAACAAGCATGTCCACAAGGATTATGCCGTTAGGTTTGGGAGTACCATTTCCCAGGAAAGCCTGGCTGTGGTTGGTTACGCGGGATAATGGGATGCGGTTACATGATTAAAGTAACACGGAGGCGTTGGCTAATCCGTGACTCTACGGTGCTGTTACTGGAGAGCTATGTCGCAATATGGAGCTATTACGATCCACAATGTAGATATCGTAACAGGGTCCTTCCTGAATGGTCTACCGAATGATGTCGTCTCAGGAGTTCCGTGCTACAGGGGATCCCCATAACGCTCGGGCCTAAGGCTCTTGCATAGTATAACAGGGGATACGGTGGACCTGTCAATGTACGCAGGAGAGCATACATCAAGCATGTGGTCAGGTGGATCTTGGTGGTGTCGGGGCTCCAGTGAGAATTTTAATGATAGACGTTATGTTCTACAACCGGTGCGCAACTTCCGTAGAAGGGTGTGGTGTATCGCTCCTTCAGGTGCCGGCGGCGGAAAATTGTTAACTAAATTGTAGAGGTGACGAACCGCGAAGAGTAGGTATGGCGATCCGAGCCCATATAATCGTGGTGTCCGCACCCTAGGAAATGTTCTGGCGACTTGTTACATACCCAGCCCTGGGTTGCCAACTATTGCTTAATGACTTAGATCTGGGGCAAA
+
+R version 2.15.2 (2012-10-26) -- "Trick or Treat"
+Copyright (C) 2012 The R Foundation for Statistical Computing
+ISBN 3-900051-07-0
+Platform: x86_64-pc-linux-gnu (64-bit)
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+  Natural language support but running in an English locale
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+[Previously saved workspace restored]
+
+> #!/usr/bin/Rscript
+> 
+> ##################################################################
+> ## Author:
+> ##
+> ## Sanyk28 (san-heng-yi-shu@163.com)
+> ##
+> ## Date created:
+> ##
+> ## 8 Oct 2013
+> ##
+> ## Rosalind problem:
+> ##
+> ## Counting DNA Nucleotides
+> ##
+> ## Given: A DNA string s of length at most 1000 nt.
+> ##
+> ## Return: Four integers (separated by spaces) counting the respective number of times that the symbols 'A', 'C', 'G', and 'T' occur in s.
+> ##
+> ## Usage:
+> ##
+> ## === under R environment ===
+> ##
+> ## source(DNA.R)
+> ##
+> ## === under Linux environment ===
+> ##
+> ## Rscript DNA.R [Input File]
+> ##
+> ##################################################################
+> 
+> 
+> # a = 'hello World'
+> # a
+> 
+> 
+> args <- commandArgs(trailingOnly = TRUE)
+> print(args)
+character(0)
+>  
+> 
+> proc.time()
+   user  system elapsed 
+  0.284   0.028   0.348 
