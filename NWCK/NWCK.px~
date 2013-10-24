@@ -1,0 +1,97 @@
+#!/usr/bin/python
+
+
+#########################################################################
+# Author:
+#
+# Sanyk28 (san-heng-yi-shu@163.com)
+#
+# Date created:
+#
+# 19 Oct 2013
+#
+# Rosalind problem:
+#
+# Distances in Trees
+#
+# Given: A collection of n trees (n<=40) in Newick format, with each tree 
+#        containing at most 200 nodes; each tree Tk is followed by a pair 
+#        of nodes xk and yk in Tk.
+#
+# Return: A collection of n positive integers, for which the kth integer 
+#         represents the distance between xk and yk in Tk.
+#
+# Usage:
+#
+# python NWCK.py [Input File]
+#
+########################################################################
+
+import sys
+
+def read_file(filename):
+    '''
+    Given: input file filename in plain text format.
+    Return: file contents from input file.
+    
+    Example:
+    >>> read_file(test.txt)
+    ['(cat)dog;\n', 'dog cat\n', '\n', '(dog,cat);\n', 'dog cat\n']
+    '''
+    f = open(filename)
+    raw_data = f.readlines()
+    f.close()
+    return raw_data
+
+def parse_data(data):
+    '''
+    Given: file content from read_file(filename).
+    Return: a dictionary where Newick format Trees are dictionary keys, 
+            and nodes that need to calcuate the distance in between are 
+            dictionary values.
+    
+    Example:
+    >>> parse_data(['(cat)dog;\n', 'dog cat\n', '\n', '(dog,cat);\n', 
+                    'dog cat\n'])
+    {'(dog,cat);': 'dog cat', '(cat)dog;': 'dog cat'}
+    '''
+
+    Trees = {}
+    tree = ''
+    for row in data:
+        if len(row.strip()) == 0:
+            continue
+        elif row.strip()[-1:] == ';':
+            tree = row.strip()
+            Trees[tree] = ''
+        else:
+            Trees[tree] = row.strip()
+    return Trees
+
+def distance(tree, nodes):
+    '''
+    Given: a Newick format tree and a string of two nodes from the tree.
+    Return: the distance between the nodes.
+
+    Examples:
+    >>> 
+    '''
+
+    distance = 0
+    nodes = nodes.split(' ')
+    if ','.join([nodes[0],nodes[1]]) or ','.join([nodes[1],nodes[0]]) in tree:
+        distance = 2
+    return distance
+
+'''
+def result(data_dict):
+    for key, value in data_dict:
+        distance
+    return 
+'''
+
+if __name__ == '__main__':
+
+    raw_data = read_file(sys.argv[-1])
+    Trees = parse_data(raw_data)
+    print distance('(dog,cat);','dog cat')
