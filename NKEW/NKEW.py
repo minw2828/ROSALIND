@@ -11,17 +11,18 @@
 #
 # Rosalind problem:
 #
-# Distances in Trees
+# Newick Format with Edge Weights
 # 
-# Given: A collection of n trees (n<=40) in Newick format, with each tree containing at 
-#        most 200 nodes; each tree Tk is followed by a pair of nodes xk and yk in Tk.
+# Given: A collection of n weighted trees (n<=40) in Newick format, with each tree 
+#        containing at most 200 nodes; each tree Tk is followed by a pair of nodes 
+#        xk and yk in Tk.
 #
-# Return: A collection of n positive integers, for which the kth integer represents the 
-#         distance between xk and yk in Tk.
+# Return: A collection of n numbers, for which the kth number represents the distance 
+#         between xk and yk in Tk
 #
 # Usage:
 #
-# python NWCK.py [Input File]
+# python NKEW.py [Input File]
 #
 ########################################################################################
 
