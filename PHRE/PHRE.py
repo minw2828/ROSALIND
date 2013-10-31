@@ -8,7 +8,7 @@
 #
 # Date created:
 #
-# 30 October 2013
+# 31 October 2013
 #
 # Rosalind problem:
 # 
