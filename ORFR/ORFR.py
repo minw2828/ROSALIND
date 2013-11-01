@@ -1,32 +1,34 @@
 #!/usr/bin/python
 
-###############################################################################
-# 
+###########################################################################
+#
 # Author:
 #
-# Sanyk28 (san-heng-yi-shu@163.com)
+# Sanyk28 (san-heng-yi-shu@hotmail.com)
 #
 # Date created:
 #
-# 12 June 2013
+# 1 November 2013
 #
 # Rosalind problem:
+# 
+# Finding Genes with ORFs
 #
-# Open Reading Frames
-# 
-# Given: A DNA string s of length at most 1 kbp in FASTA format
-# 
-# Return: Every distinct candidate protein string that can be translated from ORFs 
-#         of s. Strings can be returned in any order
+# Given: A DNA string s of length at most 1 kbp.
+#
+# Return: The longest protein string that can be translated from an ORF of s. 
+#         If more than one protein string of maximum length exists, then you 
+#         may output any solution.
 #
 # Usage:
 #
-# python ORF.py [Input File]
+# python ORFR.py [Input File]
 #
-################################################################################
+############################################################################
 
 import sys
 import re
+from Bio.Seq import reverse_complement
 
 DNA_CODON = {
     'TTT': 'F',     'CTT': 'L',     'ATT': 'I',     'GTT': 'V',
@@ -48,19 +50,12 @@ DNA_CODON = {
 
 def read_file(input_file):
     f = open(input_file)
-    raw_input = f.readlines()
+    raw_input = f.readline().strip()
     f.close()
     return raw_input
 
-def parse_fasta(raw_input):
-    data = {}
-    for item in raw_input:
-        if item[0] == '>':
-            key = item[1:].strip()
-            data[key] = ''
-        else:
-            data[key] += ''.join(item.strip())
-    return data
+def rc(seq):
+    return reverse_complement(seq)
 
 def translate_codon(codon):
     protein = None
@@ -69,17 +64,18 @@ def translate_codon(codon):
     return protein
 
 # generate sub_seqs according to start codons
-def sub_seqs(seq):
-    sub_seq = []
-    start_codons = [m.start() for m in re.finditer("ATG", seq)]
-    for start_codon in start_codons:
-        sub_seq.append(re.findall('...',seq[start_codon:]))
-    return sub_seq
+def refine_start_codon(DNA):
+    start_codon_indexes = [m.start() for m in re.finditer('(?=ATG)', DNA)]
+    refine_seqs = []
+    for i in start_codon_indexes:
+        refine_seqs.append(re.findall('...',DNA[i:]))
+    return refine_seqs
 
 # translate DNA to protein
 def translation(seq):
     proteins = []
-    for sub_seq in sub_seqs(seq):
+    for sub_seq in refine_start_codon(seq):
+    # for sub_seq in sub_seqs(seq):
         protein = ""
         found_stop = False
         for codon in sub_seq:
@@ -92,22 +88,10 @@ def translation(seq):
             proteins.append(protein)
     return proteins
 
-def reverse_complementary(seq):
-    lookup = {'A':'T', 'T':'A', 'G':'C', 'C':'G'}
-    return ''.join([lookup[c] for c in reversed(seq)])
+if __name__ == '__main__':
 
-if __name__ == "__main__":
-
-    raw_data = read_file(sys.argv[-1])
-    data = parse_fasta(raw_data)
-    forward = data.values()[0]
-    reverse = reverse_complementary(data.values()[0])
-
+    forward = read_file(sys.argv[-1])
+    reverse = rc(forward)
     possible_a = translation(forward)
     possible_b = translation(reverse)
-
-    filename = '.'.join(sys.argv[-1].split('.')[:-1])
-    fw = open(filename+'.output.txt','w')
-    fw.write("\n".join(set(possible_a + possible_b)))
-    fw.close()
-
+    print max(set(possible_a + possible_b),key=len)
