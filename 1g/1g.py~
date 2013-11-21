@@ -1,0 +1,101 @@
+#################################################################
+#
+# Author: Min Wang (san-heng-yi-shu@163.com)
+#
+# Date Created:
+# 13 Nov 2013
+#
+# Coursera - Bioinformatics Algorithms
+# - Some Hidden Messages are More Elusive than Others
+#
+# Frequent Words with Mismatches Problem: 
+#     Find the most frequent k-mers with mismatches in a string.
+#     Input: A string Text as well as integers k and d. (You may 
+#            assume k <= 12 and d <= 3.)
+#     Output: All most frequent k-mers with up to d mismatches in Text.
+#
+# CODE CHALLENGE: Solve the Frequent Words with Mismatches Problem.
+#
+# Sample Input:
+#     ACGTTGCATGTCGCATGATGCATGAGAGCT 4 1
+# Sample Output:
+#     GATG ATGC ATGT
+#  
+###################################################################
+
+import sys
+import re
+
+def read_file(filename):
+    f = open(filename, 'r')
+    data = f.readlines()
+    return data
+    f.close()
+
+def generate_mismatches(kmer):
+    bases = ['A','C','T','G']
+    mismatches = set()
+    for base in bases:
+        for i in range(len(kmer)):
+            m = kmer[:i]+base+kmer[i+1:]
+            if m <> kmer:
+                mismatches.add(m)
+    return mismatches
+
+def correct_kmers(seq,k):
+    possibles = set(seq[i:i+k] for i in range(len(seq)-k+1))
+    possible_d = {}
+    for kmer in possibles:
+        possible_d[kmer] = set()
+    return possible_d
+
+def possible_kmers(seq,k,d):
+    possible_d = correct_kmers(seq,k)
+    i = 0
+    while i <= d:
+        for kmer in possible_d.keys():
+            possible_d[kmer] = possible_d[kmer].union(generate_mismatches(kmer))
+            # mismatches = mismatches.union(generate_mismatches(kmer))
+        i += 1
+        # possibles.union(mismatches)
+    return possible_d
+
+def find_kmer(p,t):
+    return re.findall(p,t)
+
+def kmer_composition(s,k,d):
+    possible_d = possible_kmers(s,k,d)
+    kmers = {}
+    for kmer in possible_d.keys():
+        kmers[kmer] = 0
+
+    for kmer in kmers.keys():
+        print 'kmer: '+kmer
+        print 'kmers[kmer]: '+str(kmers[kmer])
+        print 'len(find_kmer(kmer,s)): '+str((find_kmer(kmer,s)))
+        kmers[kmer] += len(find_kmer(kmer,s))
+        print 'kmers[kmer]: '+str(kmers[kmer])
+        for value in possible_d[kmer]:
+            print 'value: '+value
+            print 'len(find_kmer(value,s)): '+str(len(find_kmer(value,s)))
+            kmers[kmer] += len(find_kmer(value,s))
+            print 'kmers[kmer]: '+str(kmers[kmer])
+        print ''
+    return kmers
+
+def result(filename):
+    text,num = [item.strip() for item in read_file(filename)]
+    k,d = [int(item) for item in num.split(' ')]
+    kmers = kmer_composition(text,k,d)
+    maximum = max([value for value in kmers.itervalues()])
+    results = [key for key in kmers.iterkeys() if kmers[key] == maximum]
+    return results
+
+if __name__ == '__main__':
+    
+    results = result(sys.argv[-1])
+    
+    fw = open('output.'+sys.argv[-1][:-4]+'.txt','w')
+    fw.write(' '.join(map(str,results)))
+    fw.close()
+

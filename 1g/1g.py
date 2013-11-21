@@ -24,57 +24,71 @@
 ###################################################################
 
 import sys
-from itertools import product
+import regex
+import timeit
+from itertools import combinations, product
 
 def read_file(filename):
     f = open(filename, 'r')
     data = f.readlines()
-    return data
     f.close()
+    return data
 
-def comparison(pattern,text):
-    i,count = 0,0    
-    while i < len(pattern):
-        if pattern[i] != text[i]:
-            count += 1
-        i += 1
-    return count
+def correct_kmers(seq,k):
+    correct = set(seq[i:i+k] for i in range(len(seq)-k+1))
+    return correct
 
-def approximate(pattern,text,d):
-    i, result = 0, []
-    while i < len(text)-len(pattern)+1:
-        if comparison(pattern,text[i:i+len(pattern)]) <= d:
-            result.append(i)
-        i += 1
-    return result
+def generate(s,d):
+    N = len(s)
+    letters = 'ACGT'
+    pool = list(s)
+    for indices in combinations(range(N),d):
+        for replacements in product(letters,repeat=d):
+            skip = False
+            for i, a in zip(indices, replacements):
+                if pool[i] == a:
+                    skip = True
+            if skip:
+                continue
+            key = dict(zip(indices,replacements))
+            yield ''.join([pool[i] if i not in indices else key[i] for i in range(N)])
 
-def possible_kmers(seq,k):
-    possible = set()
-    for i in range(len(seq)-k+1):
-        possible.add(seq[i:i+k])
-    return possible
+def possible_kmers(seq,k,d):
+    possibles = set()
+    correct = correct_kmers(seq,k)
+    dd = 1
+    while dd <= d:
+        for s in correct:
+            for item in generate(s,dd):
+                possibles.add(item)
+        dd += 1
+    return possibles
 
-def kmer_composition(s,k):
+def find_kmer(seq,kmer,d):
+    match = regex.findall(r'(?=(%s){s,e<=%d})'%(kmer,d),seq)
+    return match
+
+def kmer_composition(seq,k,d):
+    possibles = possible_kmers(seq,k,d)
     kmers = {}
-    for kmer in possible_kmers(s,k):
-        kmers[kmer] = 0
-
-    for kmer in possible_kmers(s,k):
-        kmers[kmer] += len(approximate(kmer,text,d))
+    for kmer in possibles:
+        kmers[kmer] = len(find_kmer(seq,kmer,d))
     return kmers
 
-def result(kmers):
+def result(filename):
+    seq,num = [item.strip() for item in read_file(filename)]
+    k,d = [int(item.strip()) for item in num.split(' ')]
+    kmers = kmer_composition(seq,k,d)
     maximum = max([value for value in kmers.itervalues()])
     results = [key for key in kmers.iterkeys() if kmers[key] == maximum]
     return results
 
 if __name__ == '__main__':
 
-    text,num= [item.strip() for item in read_file(sys.argv[-1])]
-    k, d = [int(item) for item in num.split(' ')]
-    kmers = kmer_composition(text,k)
-    result = result(kmers)
-    
+    start = timeit.default_timer()    
+    results = result(sys.argv[-1])
+    stop = timeit.default_timer()
+    print stop - start
     fw = open('output.'+sys.argv[-1][:-4]+'.txt','w')
-    fw.write(' '.join(map(str,result)))
+    fw.write(' '.join(map(str,results)))
     fw.close()

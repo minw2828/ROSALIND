@@ -33,25 +33,13 @@ def read_file(filename):
     return data
     f.close()
 
-def comparison(pattern,text):
-    i,count = 0,0    
-    while i < len(pattern):
-        if pattern[i] != text[i]:
-            count += 1
-        i += 1
-    return count
+def diff_letters(a,b):
+    return sum(a[i]!=b[i] for i in range(len(a)))
 
 def approximate(pattern,text,d):
     i, result = 0, []
     while i < len(text)-len(pattern)+1:
-        if comparison(pattern,text[i:i+len(pattern)]) <= d:
-            '''
-            print 'i:       '+str(i)
-            print 'pattern: '+pattern
-            print 'text:    '+text[i:i+len(pattern)]
-            print 
-            print ''
-            '''
+        if diff_letters(pattern,text[i:i+len(pattern)]) <= d:
             result.append(i)
         i += 1
     return result
